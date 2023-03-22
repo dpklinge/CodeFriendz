@@ -14,5 +14,4 @@ class FlywayTestConfig {
             it.migrate()
         }
     }
-
 }
