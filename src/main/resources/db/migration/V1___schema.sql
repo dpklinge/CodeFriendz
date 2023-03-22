@@ -8,7 +8,7 @@ CREATE TABLE code_friendz_app_user (
 
 
 
-CREATE TABLE user_project(
+CREATE TABLE project(
     owner UUID REFERENCES code_friendz_app_user(id),
     name TEXT PRIMARY KEY,
     description TEXT NOT NULL,
@@ -19,8 +19,8 @@ CREATE TABLE user_project(
 
 CREATE TABLE user_project_members(
     user_id UUID REFERENCES code_friendz_app_user(id),
-    project_name UUID REFERENCES user_project(name),
-    PRIMARY KEY(user_id, project_id)
+    project_name TEXT REFERENCES project(name),
+    PRIMARY KEY(user_id, project_name)
 );
 
 CREATE TABLE message(

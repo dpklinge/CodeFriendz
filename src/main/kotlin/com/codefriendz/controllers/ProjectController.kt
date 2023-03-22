@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
-import reactor.core.publisher.Mono
 
 @Controller
 class ProjectController(private val projectService: ProjectService) {
@@ -40,5 +39,4 @@ class ProjectController(private val projectService: ProjectService) {
     @PostMapping("/createProject")
     suspend fun createProject(@RequestBody project: Project) =
         projectService.createProject(project).toResponseEntity()
-
 }

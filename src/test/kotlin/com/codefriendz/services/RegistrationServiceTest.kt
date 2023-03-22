@@ -103,10 +103,11 @@ class RegistrationServiceTest {
         runBlocking {
             val input = generateRegistrationInput()
             val appUser = CodeFriendzAppUser(input.displayName, input.password, input.email, input.phoneNumber.toStandardizedPhoneNumberFormat())
+            val appUserReturn = CodeFriendzAppUser(input.displayName, input.password, input.email, input.phoneNumber.toStandardizedPhoneNumberFormat(), UUID.randomUUID())
             whenever(lookupService.lookupByEmail(input.email)).thenReturn(InformationNotFoundError().left())
             whenever(lookupService.lookupByPhone(input.phoneNumber.toStandardizedPhoneNumberFormat())).thenReturn(InformationNotFoundError().left())
             whenever(passwordEncoder.encode(input.password)).thenReturn(input.password)
-            whenever(userRepository.save(appUser)).thenReturn(Mono.just(appUser))
+            whenever(userRepository.save(appUser)).thenReturn(Mono.just(appUserReturn))
 
             val output = registrationService.registerUser(input)
 

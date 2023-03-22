@@ -37,5 +37,4 @@ data class Project(
         result = 31 * result + (messageThreadId?.hashCode() ?: 0)
         return result
     }
-
 }

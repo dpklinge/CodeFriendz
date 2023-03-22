@@ -2,10 +2,10 @@ package com.codefriendz.services
 
 import com.codefriendz.errors.InformationNotFoundError
 import com.codefriendz.errors.validation.*
-import com.codefriendz.models.user.CodeFriendzAppUser
 import com.codefriendz.models.registration.RegistrationInput
 import com.codefriendz.models.registration.RegistrationOutcome
 import com.codefriendz.models.toStandardizedPhoneNumberFormat
+import com.codefriendz.models.user.CodeFriendzAppUser
 import com.codefriendz.repositories.UserRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -54,6 +54,7 @@ class RegistrationService(private val userRepository: UserRepository, private va
         }
         var storedUser: CodeFriendzAppUser? = null
         if (didSucceed) {
+            logger.debug { "Attempting to store user: $user" }
             storedUser = storeUser(user).awaitFirstOrNull()
             logger.info { "Stored new user: $storedUser" }
         }

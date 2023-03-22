@@ -3,12 +3,12 @@ package com.codefriendz.services
 import arrow.core.Either
 import arrow.core.continuations.either
 import arrow.core.left
+import com.codefriendz.errors.AppServerError
 import com.codefriendz.errors.InformationNotFoundError
 import com.codefriendz.errors.InvalidInputError
-import com.codefriendz.errors.AppServerError
 import com.codefriendz.errors.exceptions.InformationNotFoundException
-import com.codefriendz.models.user.CodeFriendzAppUser
 import com.codefriendz.models.toStandardizedPhoneNumberFormat
+import com.codefriendz.models.user.CodeFriendzAppUser
 import com.codefriendz.repositories.UserRepository
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
@@ -48,6 +48,4 @@ class UserLookupService(private val userRepository: UserRepository, val database
             InvalidInputError(message = "Invalid username or password", inputs = arrayOf(username)).left().bind<CodeFriendzAppUser>()
         }
     }
-
-
 }

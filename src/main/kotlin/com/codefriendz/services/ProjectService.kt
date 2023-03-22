@@ -11,17 +11,18 @@ import org.springframework.stereotype.Service
 @Service
 class ProjectService(
     private val projectRepository: ProjectRepository,
-    private val databaseErrorHandler: DatabaseErrorHandler) {
-    suspend fun createProject(project: Project) = Either.catch{
-        if(projectRepository.existsById(project.name).awaitSingle()){
+    private val databaseErrorHandler: DatabaseErrorHandler
+) {
+    suspend fun createProject(project: Project) = Either.catch {
+        if (projectRepository.existsById(project.name).awaitSingle()) {
             throw ProjectNameExistsException("That project name is already taken!")
-        }else {
+        } else {
             projectRepository.save(project)
         }
-    }.mapLeft{
-        if(it is ProjectNameExistsException){
+    }.mapLeft {
+        if (it is ProjectNameExistsException) {
             ProjectNameExistsError(it.message.toString())
-        }else {
+        } else {
             databaseErrorHandler.handleException(it)
         }
     }

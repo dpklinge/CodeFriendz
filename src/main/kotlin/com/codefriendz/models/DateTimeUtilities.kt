@@ -12,13 +12,13 @@ val STANDARD_FORMATTER: DateTimeFormatter = DateTimeFormatterBuilder() // date/t
     .appendPattern("x") // create formatter
     .toFormatter()
 
-suspend fun formatDateTime(time: LocalDateTime): String{
+fun formatDateTime(time: LocalDateTime): String {
     return time.format(STANDARD_FORMATTER)
 }
-suspend fun LocalDateTime.toAppStandardString(): String{
+fun LocalDateTime.toAppStandardString(): String {
     return formatDateTime(this)
 }
 
-suspend fun LocalDateTime.toAppStandardLocalDateTime(): LocalDateTime{
+fun LocalDateTime.toAppStandardLocalDateTime(): LocalDateTime {
     return this.truncatedTo(ChronoUnit.MICROS)
 }

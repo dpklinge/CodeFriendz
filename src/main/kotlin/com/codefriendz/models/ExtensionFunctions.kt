@@ -12,5 +12,3 @@ fun String.toStandardizedPhoneNumberFormat(): String {
         throw IllegalArgumentException("$this is an invalid phone number")
     }
 }
-
-

@@ -11,10 +11,12 @@ data class CodeFriendzAppUser(
     @Id
     var id: UUID? = null
 ) {
-    fun toReturnUser()= AppUserNoPassword(displayName, password, email, phoneNumber, id!!)
+    fun toReturnUser() = AppUserNoPassword(displayName, password, email, phoneNumber, id!!)
 }
-data class AppUserNoPassword(val displayName: String,
-                             val password: String,
-                             val email: String,
-                             val phoneNumber: String,
-                             var id: UUID)
+data class AppUserNoPassword(
+    val displayName: String,
+    val password: String,
+    val email: String,
+    val phoneNumber: String,
+    var id: UUID
+)

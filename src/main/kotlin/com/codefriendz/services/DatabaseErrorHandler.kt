@@ -1,7 +1,7 @@
 package com.codefriendz.services
 
-import com.codefriendz.errors.DatabaseAccessError
 import com.codefriendz.errors.AppServerError
+import com.codefriendz.errors.DatabaseAccessError
 import com.codefriendz.errors.exceptions.InformationNotFoundException
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
