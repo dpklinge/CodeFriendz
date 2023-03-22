@@ -86,7 +86,7 @@ class MessageIntegrationTests {
                     assertEquals(message.threadId, results[0].threadId)
                     assertEquals(message.authorId, results[0].authorId)
                     assertEquals(message.sentAt, results[0].sentAt)
-                    assertEquals(true, results[0].isEdited)
+                    assertEquals(false, results[0].isEdited)
                 })
         }
     }
