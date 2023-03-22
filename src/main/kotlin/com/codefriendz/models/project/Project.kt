@@ -4,14 +4,13 @@ import org.springframework.data.annotation.Id
 import java.util.UUID
 
 data class Project(
-    @Id
-    val id: UUID? = null,
     val owner: UUID,
+    @Id
     val name: String,
     val description: String,
     val repoUrl: String,
     val projectImage: ByteArray,
-    val messageThreadId: UUID
+    val messageThreadId: UUID? = null
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -19,7 +18,6 @@ data class Project(
 
         other as Project
 
-        if (id != other.id) return false
         if (owner != other.owner) return false
         if (name != other.name) return false
         if (description != other.description) return false
@@ -31,13 +29,13 @@ data class Project(
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + owner.hashCode()
+        var result = owner.hashCode()
         result = 31 * result + name.hashCode()
         result = 31 * result + description.hashCode()
         result = 31 * result + repoUrl.hashCode()
         result = 31 * result + projectImage.contentHashCode()
-        result = 31 * result + messageThreadId.hashCode()
+        result = 31 * result + (messageThreadId?.hashCode() ?: 0)
         return result
     }
+
 }

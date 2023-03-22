@@ -10,4 +10,6 @@ data class CodeFriendzAppUser(
     val phoneNumber: String,
     @Id
     var id: UUID? = null
-)
+) {
+    fun stripPassword(): CodeFriendzAppUser = CodeFriendzAppUser(displayName, "", email, phoneNumber, id)
+}

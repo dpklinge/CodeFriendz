@@ -9,9 +9,8 @@ CREATE TABLE code_friendz_app_user (
 
 
 CREATE TABLE user_project(
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid (),
     owner UUID REFERENCES code_friendz_app_user(id),
-    name TEXT UNIQUE NOT NULL,
+    name TEXT PRIMARY KEY,
     description TEXT NOT NULL,
     repo_url TEXT,
     project_image bytea,
@@ -20,11 +19,9 @@ CREATE TABLE user_project(
 
 CREATE TABLE user_project_members(
     user_id UUID REFERENCES code_friendz_app_user(id),
-    project_id UUID REFERENCES user_project(id),
+    project_name UUID REFERENCES user_project(name),
     PRIMARY KEY(user_id, project_id)
 );
-
-
 
 CREATE TABLE message(
     thread_id UUID,

@@ -57,7 +57,7 @@ class RegistrationService(private val userRepository: UserRepository, private va
             storedUser = storeUser(user).awaitFirstOrNull()
             logger.info { "Stored user: $storedUser" }
         }
-        return@coroutineScope RegistrationOutcome(didSucceed, errorList, storedUser)
+        return@coroutineScope RegistrationOutcome(didSucceed, errorList, storedUser?.stripPassword())
     }
 
     private suspend fun storeUser(appUser: RegistrationInput) = userRepository.save(CodeFriendzAppUser(appUser.displayName, passwordEncoder.encode(appUser.password), appUser.email, appUser.phoneNumber.toStandardizedPhoneNumberFormat()))
