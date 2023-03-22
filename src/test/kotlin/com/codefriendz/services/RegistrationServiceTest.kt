@@ -7,6 +7,7 @@ import com.codefriendz.errors.validation.EmailAlreadyExistsError
 import com.codefriendz.errors.validation.NonMatchingPasswordsError
 import com.codefriendz.errors.validation.PhoneNumberAlreadyExistsError
 import com.codefriendz.models.registration.RegistrationInput
+import com.codefriendz.models.toStandardizedPhoneNumberFormat
 import com.codefriendz.models.user.CodeFriendzAppUser
 import com.codefriendz.repositories.UserRepository
 import kotlinx.coroutines.runBlocking
@@ -20,6 +21,7 @@ import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 import org.springframework.security.crypto.password.PasswordEncoder
+import reactor.core.publisher.Mono
 import java.util.UUID
 
 class RegistrationServiceTest {
@@ -45,7 +47,7 @@ class RegistrationServiceTest {
         runBlocking {
             val input = generateRegistrationInput(passwordConfirmation = ("Wrong confirmation"))
             whenever(lookupService.lookupByEmail(input.email)).thenReturn(InformationNotFoundError().left())
-            whenever(lookupService.lookupByPhone(input.phoneNumber)).thenReturn(InformationNotFoundError().left())
+            whenever(lookupService.lookupByPhone(input.phoneNumber.toStandardizedPhoneNumberFormat())).thenReturn(InformationNotFoundError().left())
             val output = registrationService.registerUser(input)
             assertTrue(output.errors[0] is NonMatchingPasswordsError)
             assertFalse(output.didSucceed)
@@ -58,7 +60,7 @@ class RegistrationServiceTest {
         runBlocking {
             val input = generateRegistrationInput()
             whenever(lookupService.lookupByEmail(input.email)).thenReturn(InformationNotFoundError().left())
-            whenever(lookupService.lookupByPhone(input.phoneNumber)).thenReturn(generateAppUser().right())
+            whenever(lookupService.lookupByPhone(input.phoneNumber.toStandardizedPhoneNumberFormat())).thenReturn(generateAppUser().right())
 
             val output = registrationService.registerUser(input)
             assertTrue(output.errors[0] is PhoneNumberAlreadyExistsError)
@@ -71,7 +73,7 @@ class RegistrationServiceTest {
     fun `registration fails when email already exists`() {
         runBlocking {
             val input = generateRegistrationInput()
-            whenever(lookupService.lookupByPhone(input.phoneNumber)).thenReturn(InformationNotFoundError().left())
+            whenever(lookupService.lookupByPhone(input.phoneNumber.toStandardizedPhoneNumberFormat())).thenReturn(InformationNotFoundError().left())
             whenever(lookupService.lookupByEmail(input.email)).thenReturn(generateAppUser().right())
 
             val output = registrationService.registerUser(input)
@@ -86,7 +88,7 @@ class RegistrationServiceTest {
         runBlocking {
             val input = generateRegistrationInput()
             val user = generateAppUser()
-            whenever(lookupService.lookupByPhone(input.phoneNumber)).thenReturn(user.right())
+            whenever(lookupService.lookupByPhone(input.phoneNumber.toStandardizedPhoneNumberFormat())).thenReturn(user.right())
             whenever(lookupService.lookupByEmail(input.email)).thenReturn(user.right())
 
             val output = registrationService.registerUser(input)
@@ -100,10 +102,14 @@ class RegistrationServiceTest {
     fun `registration succeeds with valid info`() {
         runBlocking {
             val input = generateRegistrationInput()
+            val appUser = CodeFriendzAppUser(input.displayName, input.password, input.email, input.phoneNumber.toStandardizedPhoneNumberFormat())
             whenever(lookupService.lookupByEmail(input.email)).thenReturn(InformationNotFoundError().left())
-            whenever(lookupService.lookupByPhone(input.phoneNumber)).thenReturn(InformationNotFoundError().left())
+            whenever(lookupService.lookupByPhone(input.phoneNumber.toStandardizedPhoneNumberFormat())).thenReturn(InformationNotFoundError().left())
+            whenever(passwordEncoder.encode(input.password)).thenReturn(input.password)
+            whenever(userRepository.save(appUser)).thenReturn(Mono.just(appUser))
 
             val output = registrationService.registerUser(input)
+
             assertTrue(output.errors.isEmpty())
             assertTrue(output.didSucceed)
             verify(userRepository).save(any())

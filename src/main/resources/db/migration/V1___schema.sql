@@ -31,7 +31,7 @@ CREATE TABLE message(
     author_id UUID REFERENCES code_friendz_app_user(id),
     contents TEXT NOT NULL,
     sent_at TIMESTAMP,
-    is_edited BOOLEAN
+    is_edited BOOLEAN,
     PRIMARY KEY(thread_id, sent_at)
 );
 CREATE INDEX thread_index ON message(thread_id);
