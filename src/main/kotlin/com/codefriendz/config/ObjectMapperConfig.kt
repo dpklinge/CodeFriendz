@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class ObjectMapperConfig {
-
     @Bean
     fun objectMapper() = jacksonObjectMapper().registerModule(JavaTimeModule())
 
