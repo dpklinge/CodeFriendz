@@ -1,10 +1,10 @@
 package com.codefriendz.models.registration
 
 import com.codefriendz.errors.validation.ValidationError
-import com.codefriendz.models.user.CodeFriendzAppUser
+import com.codefriendz.models.user.AppUserNoPassword
 import com.codefriendz.validators.ValidEmail
 import com.codefriendz.validators.ValidPhoneNumber
-import javax.validation.constraints.*
+import javax.validation.constraints.Size
 
 data class RegistrationInput(
     @field:Size(min = 2, max = 15, message = "Display name has invalid length - length should be between 2-15 characters")
@@ -20,5 +20,5 @@ data class RegistrationInput(
 data class RegistrationOutcome(
     val didSucceed: Boolean,
     val errors: List<ValidationError>,
-    val registeredUser: CodeFriendzAppUser?
+    val registeredUser: AppUserNoPassword?
 )

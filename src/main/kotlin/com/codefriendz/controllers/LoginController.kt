@@ -1,7 +1,7 @@
 package com.codefriendz.controllers
 
 import com.codefriendz.errors.AppServerError
-import com.codefriendz.models.user.CodeFriendzAppUser
+import com.codefriendz.models.user.AppUserNoPassword
 import com.codefriendz.services.LoginService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
@@ -26,7 +26,7 @@ class LoginController(val loginService: LoginService) {
                 content = [
                     Content(
                         mediaType = "application/json",
-                        schema = Schema(implementation = CodeFriendzAppUser::class)
+                        schema = Schema(implementation = AppUserNoPassword::class)
                     )
                 ]
             ),
