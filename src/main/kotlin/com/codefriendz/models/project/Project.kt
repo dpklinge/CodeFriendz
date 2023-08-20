@@ -10,7 +10,9 @@ data class Project(
     val description: String,
     val repoUrl: String,
     val projectImage: ByteArray,
-    val messageThreadId: UUID? = null
+    val messageThreadId: UUID? = null,
+    val userAuthorizations: Map<UUID, ProjectAuthorization>,
+    val allowUnauthorizedComments: Boolean = false
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

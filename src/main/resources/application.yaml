@@ -3,6 +3,11 @@ server:
 #  servlet:
 #    context-path: "TestContext"
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://${auth0.domain}/
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/postgres
     username: postgres
@@ -18,6 +23,10 @@ spring:
 
 security:
   ignored: /**
+auth0:
+  audience: https://code-friendz.com
+  domain: code-friends.us.auth0.com
+
 logging:
   level:
     org:

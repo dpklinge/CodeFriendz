@@ -45,13 +45,17 @@ dependencies {
     // flyway
     implementation("org.flywaydb:flyway-core:9.12.0")
 
-    // Swaggerx`
+    // Swagger
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.12")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.6.12")
 
     // Validators
     implementation("commons-validator:commons-validator:1.7")
     implementation("com.googlecode.libphonenumber:libphonenumber:8.13.5")
+
+    //OAuth
+    implementation("org.springframework.security:spring-security-oauth2-resource-server")
+    implementation("org.springframework.security:spring-security-oauth2-jose")
 
     // Testing
     testImplementation("org.mockito.kotlin:mockito-kotlin:4.1.0")

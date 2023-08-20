@@ -7,4 +7,5 @@ import java.util.*
 
 interface ProjectRepository : R2dbcRepository<Project, String> {
     suspend fun findAllByOwner(owner: UUID): Flow<Project>
+    suspend fun findByName(name: String): Project
 }

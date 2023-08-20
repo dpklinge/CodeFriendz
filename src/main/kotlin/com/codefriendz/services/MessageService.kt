@@ -18,7 +18,7 @@ class MessageService(val messageRepository: MessageRepository, val databaseError
     }.mapLeft { databaseErrorHandler.handleException(it) }
 
     suspend fun storeMessage(message: Message) = Either.catch {
-        val result = if (messageRepository.existsByThreadIdAndSentAt(message.threadId, message.sentAt)) {
+        if (messageRepository.existsByThreadIdAndSentAt(message.threadId, message.sentAt)) {
             messageRepository.updateMessage(message)
         } else {
             messageRepository.insertMessage(message)
@@ -26,7 +26,7 @@ class MessageService(val messageRepository: MessageRepository, val databaseError
         CoroutineScope(Dispatchers.IO).launch {
             notifyThreadFollowers(message.threadId)
         }
-        result
+        message
     }.mapLeft { databaseErrorHandler.handleException(it) }
 
     private suspend fun notifyThreadFollowers(id: UUID) {
